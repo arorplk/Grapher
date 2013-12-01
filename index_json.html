@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript">
+            
+            google.load("visualization", "1", {packages:["annotatedtimeline","table"]});
+            google.setOnLoadCallback(drawChart);
+            function drawChart() {
+             var jsonData = $.ajax({
+                                   url: "getData_json.php",
+                                   dataType:"json",
+                                   async: false
+                                   }).responseText;
+                                   
+                                   var data = new google.visualization.DataTable(jsonData);
+
+                           var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
+                           chart.draw(data,{'displayAnnotations': false});
+                           
+                            var table = new google.visualization.Table(document.getElementById('table_div'));
+                            table.draw(data, {'showRowNumber': true});
+            }
+            
+        </script>
+    </head> 
+    <body>
+        <img style="float: left; margin: 60px 15px 15px 0px;" src="img/annotated_timeline.png" width="25%" />
+        <img style="float: right; margin: 350px 15px 15px 0px;" src="img/data_chart.png" width="25%" />
+        <center>
+            <br>
+
+        <center>
+        <div id='chart_div' style="width:500; height:250"></div>
+        <br>
+        <br>
+        <div id='table_div' style="width:500; height:250"></div>
+        </center>
+    </body>
+</html>

@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        <script type="text/javascript">
+            google.load("visualization", "1", {packages:["annotatedtimeline","Table"]});
+            google.setOnLoadCallback(drawChart);
+            function drawChart() {
+            var query = new google.visualization.Query('/getData_sql.php');
+                query.setQuery('SELECT *');
+                query.send(function(result) {
+                       document.write(result.getDetailedMessage());
+                           if(result.isError()) {
+                           alert(result.getDetailedMessage());
+            
+                          } else {
+            
+                           var data = result.getDataTable();
+
+                           var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
+                           chart.draw(data,{displayAnnotations: false});
+                            }
+                            var table = new google.visualization.Table(document.getElementById('table_div'));
+                            table.draw(data, {'showRowNumber': true});
+                                }
+            }
+            
+                           </script>
+    </head> 
+    <body>
+        <img style="float: left; margin: 60px 15px 15px 0px;" src="img/annotated_timeline.png" width="25%" />
+        <img style="float: right; margin: 350px 15px 15px 0px;" src="img/data_chart.png" width="25%" />
+        <center>
+            <br>
+
+        <center>
+        <div id='chart_div' style="width:500; height:250"></div>
+        <br>
+        <br>
+        <div id='table_div' style="width:500; height:250"></div>
+        </center>
+    </body>
+</html>
